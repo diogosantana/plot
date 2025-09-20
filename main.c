@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <math.h>
+#include "fibonacci.c"
 
-int main(int argc, char const *argv[])
+int main(int argc, char const *argv[])   
 {
     FILE* file = fopen("test.txt", "w");
 
@@ -24,4 +25,6 @@ int main(int argc, char const *argv[])
     
 
     fclose(file);
+
+    printf("fibonnaci(12) = %d", fibonacci(12));
 }
