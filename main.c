@@ -28,5 +28,5 @@ int main(int argc, char const *argv[])
     fclose(file);
 
     printf("fibonnaci(12) = %d\n", fibonacci(12));
-    printf("fibonnaci_recursive(12) = %d", fibonacci_recursive(12));
+    printf("fibonnaci_recursive(12) = %d\n", fibonacci_recursive(12));
 }
