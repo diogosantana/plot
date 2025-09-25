@@ -1,0 +1,9 @@
+#!/bin/bash
+#set -xe
+echo Compilando main.c...
+clang -o main main.c
+echo Executando main.exe...
+./main
+echo Gerando gráfico com o gnuplot...
+gnuplot-base plot.gp
+echo Fim.
