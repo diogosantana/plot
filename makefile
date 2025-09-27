@@ -1,15 +1,20 @@
 clean :
 	rm -rf dist
+	
+clean-plot: 
+	rm -rf plot
 
-build :
-	mkdir dist
+clean-all: clean clean-plot
+
+build : clean
+	mkdir -p dist
 	clang -o dist/main main.c
 
-run :
+run : build
 	dist/main
 
-plot :
+gen-plot :
+	mkdir -p plot
 	gnuplot-base plot.gp
 
-all : clean build run plot
-	
+all : clean build run gen-plot

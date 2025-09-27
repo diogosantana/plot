@@ -11,9 +11,11 @@ int main(int argc, char const *argv[])
 
     for (int x = 0; x < n + 1; x++)
     {
-        int y = pow(2, x);
-
-        fprintf(file, "%d %d\n", x, y);
+        float y = 1 / (float)x;
+        fprintf(file, "%d %f\n", x, y);
+        
+        // int y = pow(2, x);
+        // fprintf(file, "%d %d\n", x, y);
     }
     
 
