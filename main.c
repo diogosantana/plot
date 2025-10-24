@@ -4,6 +4,8 @@
 #include "fibonacci_recursive.c"
 #include "fibonacci.c"
 #include <Windows.h>
+#include <inttypes.h>
+
 
 int main(int argc, char const *argv[])
 {
@@ -35,59 +37,51 @@ int main(int argc, char const *argv[])
 
     printf("diff Arquivo: %lld us\n", ElapsedMicroseconds.QuadPart);
 
-    int n2 = 44;
 
-    struct timespec start, end;
-    clock_t clock_start = clock();
 
-    clock_gettime(CLOCK_MONOTONIC, &start);
-    
-    QueryPerformanceCounter(&StartingTime);
 
-    printf("fibonnaci(%d) = %d\n", n2, fibonacci(n2));
 
-    QueryPerformanceCounter(&EndingTime);
+    int n2 = 92;
+    double times[n2]; 
 
-    clock_gettime(CLOCK_MONOTONIC, &end);
-    clock_t clock_end = clock();
+    uint64_t fib;
 
-    ElapsedMicroseconds.QuadPart = EndingTime.QuadPart - StartingTime.QuadPart;
-
-    ElapsedMicroseconds.QuadPart *= 1000000;
-    ElapsedMicroseconds.QuadPart /= Frequency.QuadPart;
-
-    printf("diff QPC: %lld us\n", ElapsedMicroseconds.QuadPart);
-
-    clock_t diff = clock_end - clock_start;
-
-    printf("diff: %lu ms\n", diff);
-
-    uint64_t delta_us = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_nsec - start.tv_nsec) / 1000;
-    printf("Time: %lu us\n", delta_us);
+    for (int i = 1; i <= n2; i++) {
+        QueryPerformanceCounter(&StartingTime);
+        
+        fib = fibonacci(i);
+        
+        QueryPerformanceCounter(&EndingTime);
+        double elapsed = (double)(EndingTime.QuadPart - StartingTime.QuadPart) * 1000000000.0 / Frequency.QuadPart;
+        printf("1 - fibonnaci(%d) = %ld - time: %.0f ns\n", i, fib, elapsed);
+        times[i - 1] = elapsed;
+    }
 
     // for(int i = 0; i < 10; i++) {
     //     printf("i: %d\n", i);
     // }
+    
+    // QueryPerformanceCounter(&StartingTime);
 
-    clock_start = clock();
-    clock_gettime(CLOCK_MONOTONIC, &start);
-    QueryPerformanceCounter(&StartingTime);
+    // fib = fibonacci_recursive(n2);
+    
+    // QueryPerformanceCounter(&EndingTime);
+    // elapsed = (double)(EndingTime.QuadPart - StartingTime.QuadPart) * 1000000000 / Frequency.QuadPart;
+    // printf("Time fib recursive (%i): %.0f us\n", n2, elapsed);
 
-    printf("fibonnaci_recursive(%d) = %d\n", n2, fibonacci_recursive(n2));
+    // printf("fibonnaci_recursive(%d) = %ld\n", n2, fib);
 
-    QueryPerformanceCounter(&EndingTime);
-    ElapsedMicroseconds.QuadPart = EndingTime.QuadPart - StartingTime.QuadPart;
 
-    ElapsedMicroseconds.QuadPart *= 1000000;
-    ElapsedMicroseconds.QuadPart /= Frequency.QuadPart;
-    printf("diff QPC: %lld us\n", ElapsedMicroseconds.QuadPart);
+    file = fopen("dist/fibo-recursive-microseconds.txt", "w");
 
-    clock_gettime(CLOCK_MONOTONIC, &end);
+    for (int x = 0; x < n2; x++)
+    {
+        double time = times[x];
+        if (time > 1.0) {
+            fprintf(file, "%d %.3f\n", x + 1, time);
+        }
+    }
+    fclose(file);
 
-    clock_end = clock();
-    diff = clock_end - clock_start;
-    printf("diff: %lu ms\n", diff);
 
-    delta_us = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_nsec - start.tv_nsec) / 1000;
-    printf("Time: %lu us\n", delta_us);
 }

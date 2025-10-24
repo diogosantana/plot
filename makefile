@@ -8,7 +8,7 @@ clean-all: clean clean-plot
 
 build : clean
 	mkdir -p dist
-	clang -o dist/main main.c
+	clang -O0 -o dist/main main.c 
 
 run : build
 	dist/main

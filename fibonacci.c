@@ -1,5 +1,7 @@
-int fibonacci(int n) {
-    int f[n];
+#include <inttypes.h>
+
+uint64_t fibonacci(int n) {
+    uint64_t f[n];
     f[0] = 1;
     f[1] = 1;   
     for (int i = 2; i < n; i++){   
